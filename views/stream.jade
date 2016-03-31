@@ -1,0 +1,107 @@
+doctype html
+html(lang="fi")
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    h1 Videon nauhoituspalvelu pimpeli pom
+    
+    script.
+        function stopStream(){
+            var video = document.querySelector('video');
+            //video.src = "";
+            
+            if (typeof curStream !== 'undefined'){
+                if (typeof curStream.stop !== 'undefined')
+                    curStream.stop();
+                else if (typeof curStream.getTracks !== 'undefined'){
+                    curStream.getTracks()[0].stop();
+                } else {
+                    alert("Streamia ei voi pysäyttää! Pakene sivulta turvaan!");
+                }
+            }
+            recorder.stop();
+            video.pause();
+            client.close();
+            
+            delete recorder;
+            delete curStream;
+        }
+    
+    button(onclick="stopStream()") Stop stream
+    
+    video(autoplay style="max-width:100%;")
+    
+    script(src="/js/binaryjs.js")
+    
+    script.
+        var R_BLOB_LENGTH = 1000,
+            CONNECTED = false;
+            
+        var curStream, recorder;
+        var video = document.querySelector('video');
+        
+        function hasGetUserMedia() {
+            if (navigator.mediaDevices.getUserMedia) return 1;
+            else if (navigator.webkitGetUserMedia) return 2;
+            else return false;
+        }
+        
+        function streamaa(localMediaStream){
+            var mimeType = 'video/webm; codecs=vp8';
+            curStream = localMediaStream;
+            recorder = new MediaRecorder(curStream, {mimeType:mimeType});
+            
+            video.src = window.URL.createObjectURL(curStream);
+            
+            // Connect stream
+            video.onloadedmetadata = function(e){
+                // /*
+                client = new BinaryClient('WSS://roninnode-ronipa.c9users.io/stream');
+                
+                recorder.start(R_BLOB_LENGTH);
+                
+                // Send data to server when available
+                recorder.ondataavailable = function(e){
+                    if (CONNECTED) {
+                        // Muunnetaan Blob ArrayBufferiksi ja lähetetään palvelimelle
+                        var fileReader = new FileReader();
+                        fileReader.onload = function() {
+                            client.send(this.result, {event:'upload', type:mimeType});
+                            console.log("Lähetetty dataa, "+ this.result);
+                        };
+                        fileReader.readAsArrayBuffer(e.data);
+                    }
+                };
+                
+                client.on('open', function(){
+                    CONNECTED = true;
+                });
+            }
+        }
+        
+        var userMed = hasGetUserMedia();
+        if (userMed === 1) {
+            navigator.mediaDevices.getUserMedia({
+                video: {
+                    // width: { min: 640, ideal: 1280, max: 1920 },
+                    // height: { min: 360, ideal: 1280, max: 1920 },
+                    width: { max: 160 },
+                    height: { max: 120 }
+                    // facingMode: "user"
+                }, 
+                audio:false })
+            .then(function(s){streamaa(s)})
+            .catch(function err(e){alert(e.name +': '+ e.message)});
+        } else if (userMed === 2){
+            navigator.webkitGetUserMedia({
+                    video: {
+                        width: { max: 160 },
+                        height: { max: 120 }
+                    },
+                    audio:false 
+                },
+                function(s){streamaa(s)},
+                function err(e){alert(e.name +': '+ e.message)});
+        } else {
+            alert('getUserMedia() is not supported in your browser');
+        }

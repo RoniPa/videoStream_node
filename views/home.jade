@@ -38,7 +38,9 @@ html(lang="fi")
             video.play();
         }
         
-        mediaSource.addEventListener('sourceopen', function(e) {
+        mediaSource.addEventListener('sourceopen', initMediaSource, false);
+        
+        function initMediaSource(e) {
             console.log('MediaSource opened.');
             
             var mimeType = 'video/webm; codecs=vp8';
@@ -46,14 +48,14 @@ html(lang="fi")
             if (MediaSource.isTypeSupported(mimeType)) {
                 sourceBuffer = mediaSource.addSourceBuffer(mimeType);
                 sourceBuffer.mode = 'sequence'; // 'segments' will order by timestamp
-                sourceBuffer.timestampOffset = 0.033;
+                // sourceBuffer.timestampOffset = 0.033;
                 
                 sourceBuffer.addEventListener('updateend', function(e){
                     console.log("Buffer updated");
                 });
                 
             } else console.log(mimeCodec +' mimecodec not supported');
-        }, false);
+        }
         
         mediaSource.addEventListener('sourceclose', function(e){
             console.log("MediaSource closed.");
@@ -69,12 +71,15 @@ html(lang="fi")
         });
         
         client.on('stream', function(stream, meta){
-            stream.on('data', function(data){
+            // var chunks = [];
+            
+            stream.on('data', function(data) {
                 if (typeof data !== 'string') {
-                    console.log("Dataa vastaanotettu: "+ data);
-                    
+                
+                    console.log("Dataa lisätty jonoon: " + data);
                     queue.push(new Uint8Array(data));
                     appendBlob(0);
+                    
                 }
             });
             

@@ -35,7 +35,7 @@ binaryserver.on('connection', function(client){
     switch(meta.event) {
       // request for a video
       case 'request':
-          video.request(client);
+          video.request(client, meta);
           break;
           
       case 'upload':

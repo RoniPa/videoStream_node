@@ -54,7 +54,7 @@ html(lang="fi")
                     console.log("Buffer updated");
                 });
                 
-            } else console.log(mimeCodec +' mimecodec not supported');
+            } else console.log(mimeType +' mimecodec not supported');
         }
         
         mediaSource.addEventListener('sourceclose', function(e){
@@ -75,11 +75,9 @@ html(lang="fi")
             
             stream.on('data', function(data) {
                 if (typeof data !== 'string') {
-                
                     console.log("Dataa lisätty jonoon: " + data);
                     queue.push(new Uint8Array(data));
                     appendBlob(0);
-                    
                 }
             });
             

@@ -34,8 +34,9 @@ html(lang="fi")
     script(src="/js/lib/binaryjs.js")
     
     script.
-        var R_BLOB_LENGTH = 1000,
-            CONNECTED = false;
+        var R_BLOB_LENGTH = 2000,
+            CONNECTED = false,
+            MIME_TYPE = 'video/webm; codecs=vp8';
             
         var curStream, recorder;
         var video = document.querySelector('video');
@@ -47,9 +48,8 @@ html(lang="fi")
         }
         
         function streamaa(localMediaStream){
-            var mimeType = 'video/webm; codecs=vp8';
             curStream = localMediaStream;
-            recorder = new MediaRecorder(curStream, {mimeType:mimeType});
+            recorder = new MediaRecorder(curStream, {mimeType:MIME_TYPE});
             
             video.src = window.URL.createObjectURL(curStream);
             
@@ -63,13 +63,9 @@ html(lang="fi")
                 // Send data to server when available
                 recorder.ondataavailable = function(e){
                     if (CONNECTED) {
-                        // Muunnetaan Blob ArrayBufferiksi ja lähetetään palvelimelle
-                        var fileReader = new FileReader();
-                        fileReader.onload = function() {
-                            client.send(this.result, {event:'upload', type:mimeType});
-                            console.log("Lähetetty dataa, "+ this.result);
-                        };
-                        fileReader.readAsArrayBuffer(e.data);
+                        // Lähetetään data Blob-elementtinä
+                        client.send(e.data, {event:'upload', type:recorder.mimeType});
+                        console.log("Lähetetty dataa, "+ this.result);
                     }
                 };
                 

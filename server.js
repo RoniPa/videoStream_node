@@ -29,8 +29,6 @@ router.get("/stream", function(req,res){
 var binaryserver = new binaryjs.BinaryServer({server: server, path: '/stream'});
 
 binaryserver.on('connection', function(client){
-  console.log("Uusi yhteys!");
-
   client.on('stream', function (stream, meta) {
     switch(meta.event) {
       // request for a video
@@ -39,7 +37,7 @@ binaryserver.on('connection', function(client){
           break;
           
       case 'upload':
-          video.upload(stream, meta);
+          video.upload(client, stream, meta);
           break;
       
       default:

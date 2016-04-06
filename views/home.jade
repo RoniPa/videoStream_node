@@ -72,12 +72,15 @@ html(lang="fi")
         
         client.on('stream', function(stream, meta){
             // var chunks = [];
+            console.log("Uusi stream");
             
             stream.on('data', function(data) {
                 if (typeof data !== 'string') {
                     console.log("Dataa lisätty jonoon: " + data);
                     queue.push(new Uint8Array(data));
                     appendBlob(0);
+                } else {
+                    console.log("Tekstimuotoista dataa saapunut");
                 }
             });
             
@@ -87,7 +90,7 @@ html(lang="fi")
         });
         
         function appendBlob(e){
-            console.log('Blobeja jonossa: ' + queue.length + ', Video readyState: '+ video.readyState);
+            //console.log('Blobeja jonossa: ' + queue.length + ', Video readyState: '+ video.readyState);
             
             if (queue.length > 0 && !sourceBuffer.updating) {
                 sourceBuffer.appendBuffer(queue.shift());

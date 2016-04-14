@@ -78,9 +78,12 @@ html(lang="fi")
                 if (typeof data !== 'string') {
                     console.log("Dataa lisätty jonoon: " + data);
                     queue.push(new Uint8Array(data));
+                    
+                    // videodataa saapunut, käynnistetään toisto
                     appendBlob(0);
                 } else {
                     console.log("Tekstimuotoista dataa saapunut");
+                    queue.push(new Uint8Array(data));
                 }
             });
             

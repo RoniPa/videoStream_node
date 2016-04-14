@@ -1,2 +1,6 @@
 node_modules/*
-python-ebml/*
+pkg/*
+videos/*
+.c9/*
+bin/*
+src/*

@@ -21,7 +21,9 @@ function initMediaSource(e) {
     
     if (MediaSource.isTypeSupported(mimeType)) {
         sourceBuffer = mediaSource.addSourceBuffer(mimeType);
-        sourceBuffer.mode = 'sequence'; // 'segments' will order by timestamp
+        sourceBuffer.mode = 'sequence'; // 'segments' will order by timestamp,
+                                        // 'sequence' by arrival
+        
         // sourceBuffer.timestampOffset = 0.033;
         
         sourceBuffer.addEventListener('updateend', function(e){});

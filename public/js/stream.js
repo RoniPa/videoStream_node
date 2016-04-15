@@ -25,7 +25,7 @@ function streamaa(localMediaStream){
         recorder.start(R_BLOB_LENGTH);
         
         // Send data to server when available
-        recorder.ondataavailable = function(e){
+        recorder.ondataavailable = function(e) {
             if (CONNECTED) {
                 // Lähetetään data Blob-elementtinä
                 client.send(e.data, {event:'upload', type:recorder.mimeType});

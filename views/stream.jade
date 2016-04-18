@@ -3,7 +3,7 @@ html(lang="fi")
   head
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    h1 Videon nauhoituspalvelu pimpeli pom
+    h1 *** Streamerisivu 2066 ***
     
     script.
         function stopStream(){
@@ -25,6 +25,8 @@ html(lang="fi")
             
             delete recorder;
             delete curStream;
+            
+            CONNECTED = false;
         }
     
     button(onclick="stopStream()") Stop stream
@@ -33,3 +35,4 @@ html(lang="fi")
     
     script(src="/js/lib/binaryjs.js")
     script(src="/js/stream.js")
+    link(rel="stylesheet" href="/css/bootstrap.min.css")

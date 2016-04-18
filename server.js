@@ -35,7 +35,8 @@ binaryserver.on('connection', function(client){
       case 'request':
           video.request(client, meta);
           break;
-          
+      
+      // streamer connection
       case 'upload':
           video.upload(client, stream, meta);
           break;

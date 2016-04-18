@@ -4,9 +4,7 @@ html(lang="fi")
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
     h1 Onneksi olkoon!
-    h2 Ja tervetuloa katsomaan streamia! :):):):):):)
-    
-    video(autoplay controls style="max-width:100%;")
+    h2 Ja tervetuloa katsomaan streamia!
     
     script.
         function stopStream(){
@@ -21,5 +19,8 @@ html(lang="fi")
     
     button(onclick="stopStream()") Stop stream
     
+    video(autoplay controls style="max-width:100%;")
+    
     script(src="/js/lib/binaryjs.js")
     script(src="/js/home.js")
+    link(rel="stylesheet" href="/css/bootstrap.min.css")

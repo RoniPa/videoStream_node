@@ -52,7 +52,6 @@ client.on('stream', function(stream, meta){
         if (typeof data !== 'string') {
             queue.push(new Uint8Array(data));
             appendBlob(0);
-            first = false;
         } else {
             console.log("Saapui tekstiä");
         }

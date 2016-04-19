@@ -41,7 +41,7 @@ mediaSource.addEventListener('error', function(e){
 
 client.on('open', function(){
     console.log("yhdistetty");
-    client.createStream({event: 'request'});
+    client.createStream({event: 'request', eventType:(EVTYPE || null)});
 });
 
 client.on('stream', function(stream, meta){

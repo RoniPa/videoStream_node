@@ -24,6 +24,10 @@ router.get("/stream", function(req,res){
   res.render('stream');
 });
 
+router.get("/recorded", function(req,res){
+  res.render('old');
+});
+
 /***************************** BINARY STREAMING *****************************/
 
 var binaryserver = new binaryjs.BinaryServer({server: server, path: '/stream'});
@@ -33,7 +37,10 @@ binaryserver.on('connection', function(client){
     switch(meta.event) {
       // request for a video
       case 'request':
-          video.request(client, meta);
+          if (meta.eventType == 'recorded')
+              video.requestOld(client, meta);
+              
+          else video.request(client, meta);
           break;
       
       // streamer connection

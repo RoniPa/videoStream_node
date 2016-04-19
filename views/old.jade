@@ -3,8 +3,8 @@ html(lang="fi")
   head
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    h1 Onneksi olkoon!
-    h2 Ja tervetuloa katsomaan streamia!
+    h1 "Arkisto"
+    h2 HUOMIO HUOMIO tämä striimi on nauhoite!
     
     script.
         function stopStream(){
@@ -16,7 +16,8 @@ html(lang="fi")
             delete mediaSource;
             delete sourceBuffer;
         }
-        EVTYPE = 'live';
+        
+        EVTYPE = 'recorded';
     
     button(onclick="stopStream()") Stop stream
     

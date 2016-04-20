@@ -3,25 +3,26 @@ html(lang="fi")
   head
     meta(name="viewport" content="width=device-width, initial-scale=1")
   body
-    h1 "Arkisto"
-    h2 HUOMIO HUOMIO tämä striimi on nauhoite!
-    
-    script.
-        function stopStream(){
-            var video = document.querySelector('video');
-            video.src = "";
-            
-            client.close();
-            
-            delete mediaSource;
-            delete sourceBuffer;
-        }
-        
-        EVTYPE = 'recorded';
-    
-    button(onclick="stopStream()") Stop stream
-    
-    video(autoplay controls style="max-width:100%;")
+    div(class="container")
+      h1 "Arkisto"
+      h2 HUOMIO HUOMIO tämä striimi on nauhoite!
+      
+      script.
+          function stopStream(){
+              var video = document.querySelector('video');
+              video.src = "";
+              
+              client.close();
+              
+              delete mediaSource;
+              delete sourceBuffer;
+          }
+          
+          EVTYPE = 'recorded';
+      
+      button(onclick="stopStream()") Stop stream
+      
+      video(autoplay controls style="max-width:100%;")
     
     script(src="/js/lib/binaryjs.js")
     script(src="/js/client.js")

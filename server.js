@@ -3,6 +3,7 @@ var fs = require("fs");
 var http = require('http');
 var path = require('path');
 var video = require('./lib/video');
+var va = require('./lib/video_actions');
 
 var express = require('express');
 var $PORT = process.env.PORT;
@@ -58,3 +59,5 @@ binaryserver.on('connection', function(client){
 });
 
 console.log("Server running at http://"+$IP+":"+$PORT);
+
+// va.scanFile(fs.readFileSync('./videos/testfile.bin'));
